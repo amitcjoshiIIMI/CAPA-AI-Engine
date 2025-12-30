@@ -1,0 +1,1 @@
+{"statusCode": 400, "body": "{\"error\": \"No image provided (expected \\\"image\\\" or \\\"image_data\\\" field)\"}"}

@@ -1,0 +1,53 @@
+{
+    "Configuration": {
+        "FunctionName": "CapaInferenceStack-InferenceFuncFDF6E9AD-cyrZ5KnJmjpv",
+        "FunctionArn": "arn:aws:lambda:us-east-1:507282033774:function:CapaInferenceStack-InferenceFuncFDF6E9AD-cyrZ5KnJmjpv",
+        "Role": "arn:aws:iam::507282033774:role/CapaInferenceStack-InferenceFuncServiceRole4DA9D76D-aaxHx1yqcPDT",
+        "CodeSize": 0,
+        "Description": "",
+        "Timeout": 60,
+        "MemorySize": 3008,
+        "LastModified": "2025-12-30T10:08:59.000+0000",
+        "CodeSha256": "9ceaa629673ae8a82bde76db2581ba7e3c638eebe5131362714bd5676543a477",
+        "Version": "$LATEST",
+        "Environment": {
+            "Variables": {
+                "METADATA_KEY": "models/model_metadata.json",
+                "MODEL_KEY": "models/resnet18_capa.pth",
+                "MODEL_BUCKET": "capastoragestack-imagesbucket1e86afb2-vsor7e9xpti8",
+                "IMAGES_BUCKET": "capastoragestack-imagesbucket1e86afb2-vsor7e9xpti8"
+            }
+        },
+        "TracingConfig": {
+            "Mode": "PassThrough"
+        },
+        "RevisionId": "a146fe05-e398-43d8-bea1-c509f585bba4",
+        "State": "Active",
+        "LastUpdateStatus": "Successful",
+        "PackageType": "Image",
+        "Architectures": [
+            "x86_64"
+        ],
+        "EphemeralStorage": {
+            "Size": 512
+        },
+        "SnapStart": {
+            "ApplyOn": "None",
+            "OptimizationStatus": "Off"
+        },
+        "LoggingConfig": {
+            "LogFormat": "Text",
+            "LogGroup": "/aws/lambda/CapaInferenceStack-InferenceFuncFDF6E9AD-cyrZ5KnJmjpv"
+        }
+    },
+    "Code": {
+        "RepositoryType": "ECR",
+        "ImageUri": "507282033774.dkr.ecr.us-east-1.amazonaws.com/cdk-hnb659fds-container-assets-507282033774-us-east-1@sha256:9ceaa629673ae8a82bde76db2581ba7e3c638eebe5131362714bd5676543a477",
+        "ResolvedImageUri": "507282033774.dkr.ecr.us-east-1.amazonaws.com/cdk-hnb659fds-container-assets-507282033774-us-east-1@sha256:9ceaa629673ae8a82bde76db2581ba7e3c638eebe5131362714bd5676543a477"
+    },
+    "Tags": {
+        "aws:cloudformation:stack-name": "CapaInferenceStack",
+        "aws:cloudformation:stack-id": "arn:aws:cloudformation:us-east-1:507282033774:stack/CapaInferenceStack/a012d8e0-e566-11f0-8de4-12d1d4376385",
+        "aws:cloudformation:logical-id": "InferenceFuncFDF6E9AD"
+    }
+}

@@ -1,0 +1,472 @@
+[14:38:20] CDK Toolkit CLI version: 2.1034.0 (build 82fb0f3)
+[14:38:20] Command line arguments: {
+  _: [ 'deploy' ],
+  'require-approval': 'never',
+  requireApproval: 'never',
+  verbose: 1,
+  v: 1,
+  app: undefined,
+  a: undefined,
+  build: undefined,
+  trace: undefined,
+  strict: undefined,
+  lookups: true,
+  'ignore-errors': false,
+  ignoreErrors: false,
+  json: false,
+  j: false,
+  debug: false,
+  profile: undefined,
+  proxy: undefined,
+  'ca-bundle-path': undefined,
+  caBundlePath: undefined,
+  ec2creds: undefined,
+  i: undefined,
+  'version-reporting': undefined,
+  telemetry: undefined,
+  versionReporting: undefined,
+  'path-metadata': undefined,
+  pathMetadata: undefined,
+  'asset-metadata': undefined,
+  assetMetadata: undefined,
+  'role-arn': undefined,
+  r: undefined,
+  roleArn: undefined,
+  staging: true,
+  output: undefined,
+  o: undefined,
+  notices: undefined,
+  'no-color': false,
+  noColor: false,
+  ci: false,
+  unstable: [],
+  'telemetry-file': undefined,
+  telemetryFile: undefined,
+  yes: false,
+  y: false,
+  all: false,
+  'build-exclude': [],
+  E: [],
+  buildExclude: [],
+  exclusively: undefined,
+  e: undefined,
+  execute: undefined,
+  'change-set-name': undefined,
+  changeSetName: undefined,
+  method: undefined,
+  m: undefined,
+  'import-existing-resources': false,
+  importExistingResources: false,
+  force: false,
+  f: false,
+  parameters: [ {} ],
+  'outputs-file': undefined,
+  O: undefined,
+  outputsFile: undefined,
+  'previous-parameters': true,
+  previousParameters: true,
+  'toolkit-stack-name': undefined,
+  toolkitStackName: undefined,
+  progress: undefined,
+  rollback: undefined,
+  hotswap: undefined,
+  'hotswap-fallback': undefined,
+  hotswapFallback: undefined,
+  'hotswap-ecs-minimum-healthy-percent': undefined,
+  hotswapEcsMinimumHealthyPercent: undefined,
+  'hotswap-ecs-maximum-healthy-percent': undefined,
+  hotswapEcsMaximumHealthyPercent: undefined,
+  'hotswap-ecs-stabilization-timeout-seconds': undefined,
+  hotswapEcsStabilizationTimeoutSeconds: undefined,
+  watch: undefined,
+  logs: true,
+  concurrency: 1,
+  'asset-parallelism': undefined,
+  assetParallelism: undefined,
+  'asset-prebuild': true,
+  assetPrebuild: true,
+  'ignore-no-stacks': false,
+  ignoreNoStacks: false,
+  '$0': '/opt/homebrew/bin/cdk',
+  STACKS: [ 'CapaInferenceStack' ],
+  stacks: [ 'CapaInferenceStack' ],
+  language: undefined
+}
+[14:38:20] cdk.json: {
+  "app": "python3 cdk/app.py",
+  "watch": {
+    "include": [
+      "**"
+    ],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "requirements*.txt",
+      "source.bat",
+      "**/__init__.py",
+      "**/__pycache__",
+      "tests"
+    ]
+  },
+  "context": {
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/core:target-partitions": [
+      "aws",
+      "aws-cn"
+    ],
+    "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
+    "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
+    "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": true,
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:validateSnapshotRemovalPolicy": true,
+    "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": true,
+    "@aws-cdk/aws-s3:createDefaultLoggingPolicy": true,
+    "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": true,
+    "@aws-cdk/aws-apigateway:disableCloudWatchRole": true,
+    "@aws-cdk/core:enablePartitionLiterals": true,
+    "@aws-cdk/aws-events:eventsTargetQueueSameAccount": true,
+    "@aws-cdk/aws-iam:standardizedServicePrincipals": true,
+    "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": true,
+    "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": true,
+    "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true,
+    "@aws-cdk/aws-route53-patters:useCertificate": true,
+    "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
+    "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": true,
+    "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": true,
+    "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": true,
+    "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": true,
+    "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": true,
+    "@aws-cdk/aws-redshift:columnId": true,
+    "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": true,
+    "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": true,
+    "@aws-cdk/aws-apigateway:requestValidatorUniqueId": true,
+    "@aws-cdk/aws-kms:aliasNameRef": true,
+    "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": true,
+    "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
+    "@aws-cdk/aws-efs:denyAnonymousAccess": true,
+    "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": true,
+    "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": true,
+    "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": true,
+    "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": true,
+    "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": true,
+    "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": true,
+    "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": true,
+    "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": true,
+    "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": true,
+    "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": true,
+    "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": true,
+    "@aws-cdk/aws-eks:nodegroupNameAttribute": true,
+    "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": true,
+    "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": true,
+    "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": false,
+    "@aws-cdk/aws-s3:keepNotificationInImportedBucket": false
+  }
+}
+[14:38:20] merged settings: {
+  versionReporting: true,
+  assetMetadata: true,
+  pathMetadata: true,
+  output: 'cdk.out',
+  app: 'python3 cdk/app.py',
+  watch: {
+    include: [ '**' ],
+    exclude: [
+      'README.md',
+      'cdk*.json',
+      'requirements*.txt',
+      'source.bat',
+      '**/__init__.py',
+      '**/__pycache__',
+      'tests'
+    ]
+  },
+  context: {
+    '@aws-cdk/aws-lambda:recognizeLayerVersion': true,
+    '@aws-cdk/core:checkSecretUsage': true,
+    '@aws-cdk/core:target-partitions': [ 'aws', 'aws-cn' ],
+    '@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver': true,
+    '@aws-cdk/aws-ec2:uniqueImdsv2TemplateName': true,
+    '@aws-cdk/aws-ecs:arnFormatIncludesClusterName': true,
+    '@aws-cdk/aws-iam:minimizePolicies': true,
+    '@aws-cdk/core:validateSnapshotRemovalPolicy': true,
+    '@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName': true,
+    '@aws-cdk/aws-s3:createDefaultLoggingPolicy': true,
+    '@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption': true,
+    '@aws-cdk/aws-apigateway:disableCloudWatchRole': true,
+    '@aws-cdk/core:enablePartitionLiterals': true,
+    '@aws-cdk/aws-events:eventsTargetQueueSameAccount': true,
+    '@aws-cdk/aws-iam:standardizedServicePrincipals': true,
+    '@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker': true,
+    '@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName': true,
+    '@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy': true,
+    '@aws-cdk/aws-route53-patters:useCertificate': true,
+    '@aws-cdk/customresources:installLatestAwsSdkDefault': false,
+    '@aws-cdk/aws-rds:databaseProxyUniqueResourceName': true,
+    '@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup': true,
+    '@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId': true,
+    '@aws-cdk/aws-ec2:launchTemplateDefaultUserData': true,
+    '@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments': true,
+    '@aws-cdk/aws-redshift:columnId': true,
+    '@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2': true,
+    '@aws-cdk/aws-ec2:restrictDefaultSecurityGroup': true,
+    '@aws-cdk/aws-apigateway:requestValidatorUniqueId': true,
+    '@aws-cdk/aws-kms:aliasNameRef': true,
+    '@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig': true,
+    '@aws-cdk/core:includePrefixInUniqueNameGeneration': true,
+    '@aws-cdk/aws-efs:denyAnonymousAccess': true,
+    '@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby': true,
+    '@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion': true,
+    '@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId': true,
+    '@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters': true,
+    '@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier': true,
+    '@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials': true,
+    '@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource': true,
+    '@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction': true,
+    '@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse': true,
+    '@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2': true,
+    '@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope': true,
+    '@aws-cdk/aws-eks:nodegroupNameAttribute': true,
+    '@aws-cdk/aws-ec2:ebsDefaultGp3Volume': true,
+    '@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm': true,
+    '@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault': false,
+    '@aws-cdk/aws-s3:keepNotificationInImportedBucket': false
+  },
+  debug: false,
+  requireApproval: 'never',
+  toolkitBucket: {},
+  staging: true,
+  bundlingStacks: [ '**' ],
+  lookups: true,
+  assetPrebuild: true,
+  ignoreNoStacks: false,
+  hotswap: { ecs: {} },
+  unstable: []
+}
+[14:38:20] Reading cached notices from /Users/amitjoshi/.cdk/cache/notices.json
+[14:38:20] Toolkit stack: CDKToolkit
+[14:38:20] context: {
+  '@aws-cdk/aws-lambda:recognizeLayerVersion': true,
+  '@aws-cdk/core:checkSecretUsage': true,
+  '@aws-cdk/core:target-partitions': [ 'aws', 'aws-cn' ],
+  '@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver': true,
+  '@aws-cdk/aws-ec2:uniqueImdsv2TemplateName': true,
+  '@aws-cdk/aws-ecs:arnFormatIncludesClusterName': true,
+  '@aws-cdk/aws-iam:minimizePolicies': true,
+  '@aws-cdk/core:validateSnapshotRemovalPolicy': true,
+  '@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName': true,
+  '@aws-cdk/aws-s3:createDefaultLoggingPolicy': true,
+  '@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption': true,
+  '@aws-cdk/aws-apigateway:disableCloudWatchRole': true,
+  '@aws-cdk/core:enablePartitionLiterals': true,
+  '@aws-cdk/aws-events:eventsTargetQueueSameAccount': true,
+  '@aws-cdk/aws-iam:standardizedServicePrincipals': true,
+  '@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker': true,
+  '@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName': true,
+  '@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy': true,
+  '@aws-cdk/aws-route53-patters:useCertificate': true,
+  '@aws-cdk/customresources:installLatestAwsSdkDefault': false,
+  '@aws-cdk/aws-rds:databaseProxyUniqueResourceName': true,
+  '@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup': true,
+  '@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId': true,
+  '@aws-cdk/aws-ec2:launchTemplateDefaultUserData': true,
+  '@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments': true,
+  '@aws-cdk/aws-redshift:columnId': true,
+  '@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2': true,
+  '@aws-cdk/aws-ec2:restrictDefaultSecurityGroup': true,
+  '@aws-cdk/aws-apigateway:requestValidatorUniqueId': true,
+  '@aws-cdk/aws-kms:aliasNameRef': true,
+  '@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig': true,
+  '@aws-cdk/core:includePrefixInUniqueNameGeneration': true,
+  '@aws-cdk/aws-efs:denyAnonymousAccess': true,
+  '@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby': true,
+  '@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion': true,
+  '@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId': true,
+  '@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters': true,
+  '@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier': true,
+  '@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials': true,
+  '@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource': true,
+  '@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction': true,
+  '@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse': true,
+  '@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2': true,
+  '@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope': true,
+  '@aws-cdk/aws-eks:nodegroupNameAttribute': true,
+  '@aws-cdk/aws-ec2:ebsDefaultGp3Volume': true,
+  '@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm': true,
+  '@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault': false,
+  '@aws-cdk/aws-s3:keepNotificationInImportedBucket': false,
+  'aws:cdk:enable-path-metadata': true,
+  'aws:cdk:enable-asset-metadata': true,
+  'aws:cdk:version-reporting': true,
+  'aws:cdk:bundling-stacks': [ '**' ]
+}
+[14:38:20] Setting "CDK_DEFAULT_REGION" environment variable to us-east-1
+[14:38:20] Retrieved account ID 507282033774 from disk cache
+[14:38:20] Setting "CDK_DEFAULT_ACCOUNT" environment variable to 507282033774
+[14:38:20] outdir: cdk.out
+[14:38:20] env: {
+  CDK_DEFAULT_REGION: 'us-east-1',
+  CDK_DEFAULT_ACCOUNT: '507282033774',
+  CDK_OUTDIR: 'cdk.out',
+  CDK_CLI_ASM_VERSION: '49.0.0',
+  CDK_CLI_VERSION: '2.1034.0'
+}
+Including dependency stacks: CapaStorageStack
+
+✨  Synthesis time: 3.8s
+
+[14:38:24] Checking for previously published assets
+[14:38:24] Retrieved account ID 507282033774 from disk cache
+[14:38:24] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-file-publishing-role-507282033774-us-east-1'.
+[14:38:24] Retrieved account ID 507282033774 from disk cache
+[14:38:24] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-image-publishing-role-507282033774-us-east-1'.
+[14:38:24] Retrieved account ID 507282033774 from disk cache
+[14:38:24] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-file-publishing-role-507282033774-us-east-1'.
+[14:38:24] Retrieved account ID 507282033774 from disk cache
+[14:38:24] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-file-publishing-role-507282033774-us-east-1'.
+[14:38:25] CapaStorageStack: check: Check s3://cdk-hnb659fds-assets-507282033774-us-east-1/cfbbdee7463162cf8590ee3d44421a736d03696ee3d8397d9b73a5e83c4dd441.json
+[14:38:25] CapaStorageStack: check: Check s3://cdk-hnb659fds-assets-507282033774-us-east-1/b7f33614a69548d6bafe224d751a7ef238cde19097415e553fe8b63a4c8fd8a6.zip
+[14:38:25] CapaInferenceStack: check: Check s3://cdk-hnb659fds-assets-507282033774-us-east-1/b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2.json
+[14:38:26] CapaStorageStack: found: Found s3://cdk-hnb659fds-assets-507282033774-us-east-1/b7f33614a69548d6bafe224d751a7ef238cde19097415e553fe8b63a4c8fd8a6.zip
+[14:38:26] CapaStorageStack: found: Found s3://cdk-hnb659fds-assets-507282033774-us-east-1/cfbbdee7463162cf8590ee3d44421a736d03696ee3d8397d9b73a5e83c4dd441.json
+[14:38:26] CapaInferenceStack: check: Check 507282033774.dkr.ecr.us-east-1.amazonaws.com/cdk-hnb659fds-container-assets-507282033774-us-east-1:4b9b6bb4160c2d40bc8b1e79fc1a4c0b121378c6e56911261c71b8d8c53670fd
+[14:38:28] CapaInferenceStack: found: Found 507282033774.dkr.ecr.us-east-1.amazonaws.com/cdk-hnb659fds-container-assets-507282033774-us-east-1:4b9b6bb4160c2d40bc8b1e79fc1a4c0b121378c6e56911261c71b8d8c53670fd
+[14:38:28] 4 total assets, 1 still need to be published
+CapaStorageStack
+CapaStorageStack: deploying... [1/2]
+[14:38:28] Retrieved account ID 507282033774 from disk cache
+[14:38:28] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-deploy-role-507282033774-us-east-1'.
+[14:38:28] Retrieved account ID 507282033774 from disk cache
+[14:38:28] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-deploy-role-507282033774-us-east-1'.
+CapaInferenceStack: start: Building b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2
+CapaInferenceStack: success: Built b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2
+[14:38:30] Retrieved account ID 507282033774 from disk cache
+[14:38:31] CapaStorageStack: checking if we can skip deploy
+[14:38:32] CapaStorageStack: skipping deployment (use --force to override)
+
+ ✅  CapaStorageStack (no changes)
+
+✨  Deployment time: 4.35s
+
+Outputs:
+CapaStorageStack.ExportsOutputFnGetAttImagesBucket1E86AFB2Arn58FEFB4A = arn:aws:s3:::capastoragestack-imagesbucket1e86afb2-vsor7e9xpti8
+CapaStorageStack.ExportsOutputRefImagesBucket1E86AFB213EE8BEC = capastoragestack-imagesbucket1e86afb2-vsor7e9xpti8
+Stack ARN:
+arn:aws:cloudformation:us-east-1:507282033774:stack/CapaStorageStack/62f230a0-d3eb-11f0-b695-0e1617ad5923
+
+✨  Total time: 8.15s
+
+[14:38:32] Retrieved account ID 507282033774 from disk cache
+CapaInferenceStack: start: Publishing b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2:current_account-current_region
+[14:38:33] Retrieved account ID 507282033774 from disk cache
+[14:38:33] Assuming role 'arn:aws:iam::507282033774:role/cdk-hnb659fds-file-publishing-role-507282033774-us-east-1'.
+[14:38:34] CapaInferenceStack: check: Check s3://cdk-hnb659fds-assets-507282033774-us-east-1/b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2.json
+[14:38:36] CapaInferenceStack: upload: Upload s3://cdk-hnb659fds-assets-507282033774-us-east-1/b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2.json
+CapaInferenceStack: success: Published b7a60561155c8b29ccf59b6b9ff523aa9dd35dafcd1cf8a0ff461a35de2da2e2:current_account-current_region
+CapaInferenceStack
+CapaInferenceStack: deploying... [2/2]
+[14:38:37] Retrieved account ID 507282033774 from disk cache
+[14:38:37] Retrieved account ID 507282033774 from disk cache
+[14:38:38] CapaInferenceStack: checking if we can skip deploy
+[14:38:38] CapaInferenceStack: no existing stack
+[14:38:38] CapaInferenceStack: deploying...
+[14:38:38] Waiting for stack CDKToolkit to finish creating or updating...
+[14:38:40] Attempting to create ChangeSet with name cdk-deploy-change-set to create stack CapaInferenceStack
+CapaInferenceStack: creating CloudFormation changeset...
+[14:38:42] Initiated creation of changeset: arn:aws:cloudformation:us-east-1:507282033774:changeSet/cdk-deploy-change-set/4a3e36a5-af98-4519-8828-6ea5ecdc78b9; waiting for it to finish creating...
+[14:38:42] Waiting for changeset cdk-deploy-change-set on stack CapaInferenceStack to finish creating...
+[14:38:43] Changeset cdk-deploy-change-set on stack CapaInferenceStack is still creating
+[14:38:49] Initiating execution of changeset arn:aws:cloudformation:us-east-1:507282033774:changeSet/cdk-deploy-change-set/4a3e36a5-af98-4519-8828-6ea5ecdc78b9 on stack CapaInferenceStack
+[14:38:50] Execution of changeset arn:aws:cloudformation:us-east-1:507282033774:changeSet/cdk-deploy-change-set/4a3e36a5-af98-4519-8828-6ea5ecdc78b9 on stack CapaInferenceStack has started; waiting for the update to complete...
+[14:38:50] Waiting for stack CapaInferenceStack to finish creating or updating...
+[14:38:51] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  0/14 | 2:38:42 PM | REVIEW_IN_PROGRESS   | AWS::CloudFormation::Stack  | CapaInferenceStack User Initiated
+CapaInferenceStack |  0/14 | 2:38:50 PM | CREATE_IN_PROGRESS   | AWS::CloudFormation::Stack  | CapaInferenceStack User Initiated
+CapaInferenceStack |  0/14 | 2:38:53 PM | CREATE_IN_PROGRESS   | AWS::CDK::Metadata          | CDKMetadata/Default (CDKMetadata) 
+CapaInferenceStack |  0/14 | 2:38:53 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role              | InferenceLambda/ServiceRole (InferenceLambdaServiceRole90FC01E3) 
+CapaInferenceStack |  0/14 | 2:38:53 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::RestApi    | CapaInferenceApi (CapaInferenceApiB19F8A61) 
+CapaInferenceStack |  0/14 | 2:38:54 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role              | InferenceLambda/ServiceRole (InferenceLambdaServiceRole90FC01E3) Resource creation Initiated
+CapaInferenceStack |  0/14 | 2:38:54 PM | CREATE_IN_PROGRESS   | AWS::CDK::Metadata          | CDKMetadata/Default (CDKMetadata) Resource creation Initiated
+CapaInferenceStack |  1/14 | 2:38:55 PM | CREATE_COMPLETE      | AWS::CDK::Metadata          | CDKMetadata/Default (CDKMetadata) 
+CapaInferenceStack |  1/14 | 2:38:55 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::RestApi    | CapaInferenceApi (CapaInferenceApiB19F8A61) Resource creation Initiated
+CapaInferenceStack |  2/14 | 2:38:56 PM | CREATE_COMPLETE      | AWS::ApiGateway::RestApi    | CapaInferenceApi (CapaInferenceApiB19F8A61) 
+[14:38:57] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  2/14 | 2:38:56 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/OPTIONS (CapaInferenceApiOPTIONS5D152E71) 
+CapaInferenceStack |  2/14 | 2:38:56 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Resource   | CapaInferenceApi/Default/inference (CapaInferenceApiinferenceEC013C93) 
+CapaInferenceStack |  2/14 | 2:38:57 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/OPTIONS (CapaInferenceApiOPTIONS5D152E71) Resource creation Initiated
+CapaInferenceStack |  2/14 | 2:38:57 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Resource   | CapaInferenceApi/Default/inference (CapaInferenceApiinferenceEC013C93) Resource creation Initiated
+CapaInferenceStack |  3/14 | 2:38:58 PM | CREATE_COMPLETE      | AWS::ApiGateway::Resource   | CapaInferenceApi/Default/inference (CapaInferenceApiinferenceEC013C93) 
+CapaInferenceStack |  3/14 | 2:38:58 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/OPTIONS (CapaInferenceApiinferenceOPTIONSA389DC2A) 
+CapaInferenceStack |  3/14 | 2:38:59 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/OPTIONS (CapaInferenceApiinferenceOPTIONSA389DC2A) Resource creation Initiated
+CapaInferenceStack |  4/14 | 2:38:59 PM | CREATE_COMPLETE      | AWS::ApiGateway::Method     | CapaInferenceApi/Default/OPTIONS (CapaInferenceApiOPTIONS5D152E71) 
+CapaInferenceStack |  5/14 | 2:39:02 PM | CREATE_COMPLETE      | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/OPTIONS (CapaInferenceApiinferenceOPTIONSA389DC2A) 
+[14:39:03] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+[14:39:09] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  6/14 | 2:39:11 PM | CREATE_COMPLETE      | AWS::IAM::Role              | InferenceLambda/ServiceRole (InferenceLambdaServiceRole90FC01E3) 
+CapaInferenceStack |  6/14 | 2:39:11 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy            | InferenceLambda/ServiceRole/DefaultPolicy (InferenceLambdaServiceRoleDefaultPolicyBB2CE719) 
+[14:39:15] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  6/14 | 2:39:12 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy            | InferenceLambda/ServiceRole/DefaultPolicy (InferenceLambdaServiceRoleDefaultPolicyBB2CE719) Resource creation Initiated
+[14:39:21] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+[14:39:27] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  7/14 | 2:39:28 PM | CREATE_COMPLETE      | AWS::IAM::Policy            | InferenceLambda/ServiceRole/DefaultPolicy (InferenceLambdaServiceRoleDefaultPolicyBB2CE719) 
+CapaInferenceStack |  7/14 | 2:39:29 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Function       | InferenceLambda (InferenceLambdaB235318C) 
+CapaInferenceStack |  7/14 | 2:39:31 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Function       | InferenceLambda (InferenceLambdaB235318C) Resource creation Initiated
+[14:39:33] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack |  7/14 | 2:39:32 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Function       | InferenceLambda (InferenceLambdaB235318C) Eventual consistency check initiated
+CapaInferenceStack |  7/14 | 2:39:32 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.Test.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionTestCapaInferenceStackCapaInferenceApi723379E5POSTinference432C393E) 
+CapaInferenceStack |  7/14 | 2:39:32 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/POST (CapaInferenceApiinferencePOSTC263294E) 
+CapaInferenceStack |  7/14 | 2:39:33 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.Test.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionTestCapaInferenceStackCapaInferenceApi723379E5POSTinference432C393E) Resource creation Initiated
+CapaInferenceStack |  7/14 | 2:39:33 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/POST (CapaInferenceApiinferencePOSTC263294E) Resource creation Initiated
+CapaInferenceStack |  8/14 | 2:39:33 PM | CREATE_COMPLETE      | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.Test.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionTestCapaInferenceStackCapaInferenceApi723379E5POSTinference432C393E) 
+CapaInferenceStack |  9/14 | 2:39:35 PM | CREATE_COMPLETE      | AWS::ApiGateway::Method     | CapaInferenceApi/Default/inference/POST (CapaInferenceApiinferencePOSTC263294E) 
+[14:39:39] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+[14:39:45] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack | 10/14 | 2:39:48 PM | CREATE_COMPLETE      | AWS::Lambda::Function       | InferenceLambda (InferenceLambdaB235318C) 
+CapaInferenceStack | 10/14 | 2:39:48 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Deployment | CapaInferenceApi/Deployment (CapaInferenceApiDeploymentDEC6A3FE7b05acafef378a16eb3cedb3cefc0e49) 
+CapaInferenceStack | 10/14 | 2:39:49 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Deployment | CapaInferenceApi/Deployment (CapaInferenceApiDeploymentDEC6A3FE7b05acafef378a16eb3cedb3cefc0e49) Resource creation Initiated
+CapaInferenceStack | 11/14 | 2:39:50 PM | CREATE_COMPLETE      | AWS::ApiGateway::Deployment | CapaInferenceApi/Deployment (CapaInferenceApiDeploymentDEC6A3FE7b05acafef378a16eb3cedb3cefc0e49) 
+CapaInferenceStack | 11/14 | 2:39:50 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Stage      | CapaInferenceApi/DeploymentStage.prod (CapaInferenceApiDeploymentStageprodB508B9CB) 
+[14:39:51] Stack CapaInferenceStack has an ongoing operation in progress and is not stable (CREATE_IN_PROGRESS)
+CapaInferenceStack | 11/14 | 2:39:51 PM | CREATE_IN_PROGRESS   | AWS::ApiGateway::Stage      | CapaInferenceApi/DeploymentStage.prod (CapaInferenceApiDeploymentStageprodB508B9CB) Resource creation Initiated
+CapaInferenceStack | 12/14 | 2:39:53 PM | CREATE_COMPLETE      | AWS::ApiGateway::Stage      | CapaInferenceApi/DeploymentStage.prod (CapaInferenceApiDeploymentStageprodB508B9CB) 
+CapaInferenceStack | 12/14 | 2:39:54 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionCapaInferenceStackCapaInferenceApi723379E5POSTinferenceE11BA227) 
+CapaInferenceStack | 12/14 | 2:39:55 PM | CREATE_IN_PROGRESS   | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionCapaInferenceStackCapaInferenceApi723379E5POSTinferenceE11BA227) Resource creation Initiated
+CapaInferenceStack | 13/14 | 2:39:55 PM | CREATE_COMPLETE      | AWS::Lambda::Permission     | CapaInferenceApi/Default/inference/POST/ApiPermission.CapaInferenceStackCapaInferenceApi723379E5.POST..inference (CapaInferenceApiinferencePOSTApiPermissionCapaInferenceStackCapaInferenceApi723379E5POSTinferenceE11BA227) 
+CapaInferenceStack | 14/14 | 2:39:57 PM | CREATE_COMPLETE      | AWS::CloudFormation::Stack  | CapaInferenceStack 
+[14:40:00] Stack CapaInferenceStack has completed updating
+
+ ✅  CapaInferenceStack
+
+✨  Deployment time: 82.81s
+
+Outputs:
+CapaInferenceStack.ApiEndpoint = https://9vaztqozti.execute-api.us-east-1.amazonaws.com/prod/
+CapaInferenceStack.CapaInferenceApiEndpoint19976B38 = https://9vaztqozti.execute-api.us-east-1.amazonaws.com/prod/
+CapaInferenceStack.InferenceUrl = https://9vaztqozti.execute-api.us-east-1.amazonaws.com/prod/inference
+CapaInferenceStack.LambdaArn = arn:aws:lambda:us-east-1:507282033774:function:CapaInferenceStack-InferenceLambdaB235318C-IQVw1tAZ4YRG
+Stack ARN:
+arn:aws:cloudformation:us-east-1:507282033774:stack/CapaInferenceStack/22e7dd40-e55f-11f0-acf3-0e4096f00edb
+
+✨  Total time: 86.6s
+
+
+NOTICES         (What's this? https://github.com/aws/aws-cdk/wiki/CLI-Notices)
+
+34892	CDK CLI will collect telemetry data on command usage starting at version 2.1100.0 (unless opted out)
+
+	Overview: We do not collect customer content and we anonymize the
+	          telemetry we do collect. See the attached issue for more
+	          information on what data is collected, why, and how to
+	          opt-out. Telemetry will NOT be collected for any CDK CLI
+	          version prior to version 2.1100.0 - regardless of
+	          opt-in/out. You can also preview the telemetry we will start
+	          collecting by logging it to a local file, by adding
+	          `--unstable=telemetry --telemetry-file=my/local/file` to any
+	          `cdk` command.
+
+	Affected versions: cli: >=2.0.0 <2.1100.0
+
+	More information at: https://github.com/aws/aws-cdk/issues/34892
+
+
+If you don’t want to see a notice anymore, use "cdk acknowledge <id>". For example, "cdk acknowledge 34892".

@@ -1,0 +1,28 @@
+{
+  "class_names": [
+    "Crazing",
+    "Inclusion",
+    "Patches",
+    "Pitted_Surface",
+    "Rolled_In_Scale",
+    "Scratches"
+  ],
+  "num_classes": 6,
+  "model_architecture": "resnet18",
+  "input_size": [
+    224,
+    224
+  ],
+  "normalization": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  }
+}
