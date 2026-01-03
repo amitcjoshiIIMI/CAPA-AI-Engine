@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from pathlib import Path
+from stacks.report_generator_stack import ReportGeneratorStack
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -21,5 +22,12 @@ inference_stack = CapaInferenceStack(
 )
 
 inference_stack.add_dependency(storage_stack)
+
+# Deploy report generator stack
+report_stack = ReportGeneratorStack(
+    app, "CapaReportGeneratorStack",
+    storage_stack=storage_stack
+)
+report_stack.add_dependency(storage_stack)
 
 app.synth()

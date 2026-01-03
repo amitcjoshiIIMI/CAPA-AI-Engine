@@ -36,7 +36,15 @@ class StorageStack(Stack):
             removal_policy=RemovalPolicy.DESTROY,
             auto_delete_objects=True,
         )
-        
+        # S3 Bucket for CAPA reports
+        self.reports_bucket = s3.Bucket(
+            self, "ReportsBucket",
+            versioned=True,
+            encryption=s3.BucketEncryption.S3_MANAGED,
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            removal_policy=RemovalPolicy.DESTROY,
+            auto_delete_objects=True,
+        )
         # DynamoDB Table for feedback
         self.feedback_table = dynamodb.Table(
             self, "FeedbackTable",

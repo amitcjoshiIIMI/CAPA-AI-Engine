@@ -1,13 +1,15 @@
-FROM public.ecr.aws/lambda/python:3.11
+FROM public.ecr.aws/lambda/python:3.9
 
-RUN yum install -y gcc gcc-c++ make cmake libgomp
+# Install PyTorch and dependencies
+RUN pip install --no-cache-dir \
+    "numpy<2.0" \
+    torch==2.0.1 \
+    torchvision==0.15.2 \
+    Pillow \
+    boto3
 
-COPY requirements.txt ${LAMBDA_TASK_ROOT}/
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy handler code
+COPY handler.py ${LAMBDA_TASK_ROOT}
 
-RUN python -c "import numpy; print('NumPy OK:', numpy.__version__)" && \
-    python -c "import torch; print('PyTorch OK:', torch.__version__)"
-
-COPY handler.py ${LAMBDA_TASK_ROOT}/
-
+# Set handler
 CMD ["handler.handler"]
