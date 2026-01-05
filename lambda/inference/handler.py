@@ -6,9 +6,12 @@ import boto3
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
+import urllib.request
+import urllib.error
 
 s3 = boto3.client('s3')
 MODEL_BUCKET = os.environ['MODEL_BUCKET']
+REPORT_API_URL = os.environ.get('REPORT_API_URL', 'https://6ewcd5z551.execute-api.us-east-1.amazonaws.com/prod/generate-report')
 
 # Load model (global to reuse across invocations)
 model = None
@@ -78,6 +81,35 @@ def handler(event, context):
             'image_id': body.get('image_id', 'unknown')
         }
         
+        # Auto-trigger report generation if confidence > 0.95
+        report_id = None
+        if confidence.item() > 0.95:
+            try:
+                report_payload = json.dumps({
+                    'image_id': result['image_id'],
+                    'failure_mode': result['predicted_class'],
+                    'confidence': str(result['confidence'])
+                }).encode('utf-8')
+                
+                req = urllib.request.Request(
+                    REPORT_API_URL,
+                    data=report_payload,
+                    headers={'Content-Type': 'application/json'}
+                )
+                
+                with urllib.request.urlopen(req, timeout=30) as response:
+                    report_data = json.loads(response.read().decode('utf-8'))
+                    report_id = report_data.get('report_id')
+                    result['report_generated'] = True
+                    result['report_id'] = report_id
+            except Exception as report_error:
+                # Don't fail the whole request if report generation fails
+                result['report_generated'] = False
+                result['report_error'] = str(report_error)
+        else:
+            result['report_generated'] = False
+            result['report_reason'] = 'Confidence below threshold (0.95)'
+        
         return {
             'statusCode': 200,
             'headers': {
@@ -86,7 +118,7 @@ def handler(event, context):
             },
             'body': json.dumps(result)
         }
-        
+    
     except Exception as e:
         return {
             'statusCode': 500,

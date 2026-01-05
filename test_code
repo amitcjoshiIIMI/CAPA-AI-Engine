@@ -1,0 +1,4 @@
+IMAGE_FILE="/Users/amitjoshi/Documents/repo/CAPA-AI-Engine/data/NEU Metal Surface Defects Data/test/Crazing/Cr_1.bmp"
+base64 -i "$IMAGE_FILE" | jq -R -s --arg id "$IMAGE_FILE" '{image: ., image_id: $id}' | \
+curl -X POST https://hs8s5pgd28.execute-api.us-east-1.amazonaws.com/prod/ \
+  -H "Content-Type: application/json" -d @- | jq .
