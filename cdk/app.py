@@ -2,6 +2,8 @@
 import sys
 from pathlib import Path
 from stacks.report_generator_stack import ReportGeneratorStack
+from stacks.feedback_stack import FeedbackStack
+from stacks.expert_review_stack import ExpertReviewStack
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -29,5 +31,19 @@ report_stack = ReportGeneratorStack(
     storage_stack=storage_stack
 )
 report_stack.add_dependency(storage_stack)
+
+# Deploy feedback stack
+feedback_stack = FeedbackStack(
+    app, "CapaFeedbackStack",
+    storage_stack=storage_stack
+)
+feedback_stack.add_dependency(storage_stack)
+
+# Deploy expert review stack
+expert_review_stack = ExpertReviewStack(
+    app, "CapaExpertReviewStack",
+    storage_stack=storage_stack
+)
+expert_review_stack.add_dependency(storage_stack)
 
 app.synth()
