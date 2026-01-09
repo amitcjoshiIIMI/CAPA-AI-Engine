@@ -4,6 +4,7 @@ from pathlib import Path
 from stacks.report_generator_stack import ReportGeneratorStack
 from stacks.feedback_stack import FeedbackStack
 from stacks.expert_review_stack import ExpertReviewStack
+from stacks.expert_approve_stack import ExpertApproveStack
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -45,5 +46,12 @@ expert_review_stack = ExpertReviewStack(
     storage_stack=storage_stack
 )
 expert_review_stack.add_dependency(storage_stack)
+
+# Deploy expert approve stack
+expert_approve_stack = ExpertApproveStack(
+    app, "CapaExpertApproveStack",
+    storage_stack=storage_stack
+)
+expert_approve_stack.add_dependency(storage_stack)
 
 app.synth()

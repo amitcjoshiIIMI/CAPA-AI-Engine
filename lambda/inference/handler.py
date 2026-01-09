@@ -8,9 +8,11 @@ import torch
 import torchvision.transforms as transforms
 import urllib.request
 import urllib.error
+from datetime import datetime
 
 s3 = boto3.client('s3')
 MODEL_BUCKET = os.environ['MODEL_BUCKET']
+IMAGES_BUCKET = os.environ.get('IMAGES_BUCKET', '')
 REPORT_API_URL = os.environ.get('REPORT_API_URL', 'https://6ewcd5z551.execute-api.us-east-1.amazonaws.com/prod/generate-report')
 
 # Load model (global to reuse across invocations)
@@ -34,6 +36,26 @@ def load_model():
         model = resnet18(num_classes=len(class_names))
         model.load_state_dict(torch.load('/tmp/model.pth', map_location='cpu'))
         model.eval()
+
+def save_image_to_s3(image_bytes, image_id):
+    """Save uploaded image to S3 for later expert review"""
+    if not IMAGES_BUCKET:
+        return None
+    
+    try:
+        # Use timestamp to avoid collisions
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        s3_key = f"uploads/{timestamp}_{image_id}"
+        
+        s3.put_object(
+            Bucket=IMAGES_BUCKET,
+            Key=s3_key,
+            Body=image_bytes
+        )
+        return s3_key
+    except Exception as e:
+        print(f"Failed to save image to S3: {str(e)}")
+        return None
 
 def handler(event, context):
     try:
@@ -59,6 +81,8 @@ def handler(event, context):
         
         # Decode image
         image_bytes = base64.b64decode(image_b64)
+        # Save to S3 for expert review
+        s3_key = save_image_to_s3(image_bytes, body.get('image_id', 'unknown'))
         image = Image.open(io.BytesIO(image_bytes)).convert('RGB')
         
         # Preprocess
@@ -78,7 +102,8 @@ def handler(event, context):
         result = {
             'predicted_class': class_names[predicted.item()],
             'confidence': float(confidence.item()),
-            'image_id': body.get('image_id', 'unknown')
+            'image_id': body.get('image_id', 'unknown'),
+            's3_key': s3_key  # Add this line
         }
         
         # Auto-trigger report generation if confidence > 0.95

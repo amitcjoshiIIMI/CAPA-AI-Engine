@@ -26,12 +26,14 @@ class CapaInferenceStack(Stack):
             environment={
                 "MODEL_BUCKET": storage_stack.model_bucket.bucket_name,
                 "DATA_TABLE": storage_stack.data_table.table_name,
+                "IMAGES_BUCKET": storage_stack.images_bucket.bucket_name,
             }
         )
 
         # Grant permissions...
         storage_stack.model_bucket.grant_read(self.inference_function)
         storage_stack.data_table.grant_read_write_data(self.inference_function)
+        storage_stack.images_bucket.grant_write(self.inference_function) 
 
         # ✨ ADD API GATEWAY
         api = apigw.RestApi(

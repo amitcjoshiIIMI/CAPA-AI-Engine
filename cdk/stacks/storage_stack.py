@@ -45,6 +45,15 @@ class StorageStack(Stack):
             removal_policy=RemovalPolicy.DESTROY,
             auto_delete_objects=True,
         )
+        # S3 Bucket for training data
+        self.training_bucket = s3.Bucket(
+            self, "TrainingBucket",
+            versioned=True,
+            encryption=s3.BucketEncryption.S3_MANAGED,
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            removal_policy=RemovalPolicy.DESTROY,
+            auto_delete_objects=True,
+        )
         # DynamoDB Table for feedback
         self.feedback_table = dynamodb.Table(
             self, "FeedbackTable",

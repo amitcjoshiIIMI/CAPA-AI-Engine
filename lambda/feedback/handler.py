@@ -28,7 +28,7 @@ def lambda_handler(event, context):
         user_action = body['user_action']  # "agree" or "disagree"
         confidence = body.get('confidence', '0.0')
         user_id = body.get('user_id', 'anonymous')
-        
+        s3_key = body.get('s3_key')  # Add this line
         # Validation
         if user_action not in ['agree', 'disagree']:
             return {
@@ -43,7 +43,8 @@ def lambda_handler(event, context):
             'user_action': user_action,
             'confidence': confidence,
             'user_id': user_id,
-            'needs_expert_review': False
+            'needs_expert_review': False,
+            's3_key': s3_key  # Add this line
         }
         
         # If user disagrees, capture corrected class
