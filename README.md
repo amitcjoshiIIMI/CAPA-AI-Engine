@@ -14,6 +14,7 @@ A comprehensive AWS-based system for detecting metal surface defects using compu
 - [Machine Learning Model](#machine-learning-model)
 - [Key Functions](#key-functions)
 - [Use Cases](#use-cases)
+- [AWS Configuration](#aws-configuration)
 - [Installation & Deployment](#installation--deployment)
 - [Usage](#usage)
 - [Functional Requirements](#functional-requirements)
@@ -554,16 +555,81 @@ lambda_handler(event, context)
 
 ---
 
+## AWS Configuration
+
+### Account Details
+
+| Setting | Value |
+|---------|-------|
+| **Account ID** | `<YOUR_AWS_ACCOUNT_ID>` |
+| **Region** | `us-east-1` |
+| **Console URL** | `https://<YOUR_AWS_ACCOUNT_ID>.signin.aws.amazon.com/console` |
+
+### CLI Configuration
+
+To access the deployed resources via AWS CLI:
+
+```bash
+aws configure
+# Enter:
+#   AWS Access Key ID: [Your access key]
+#   AWS Secret Access Key: [Your secret key]
+#   Default region: us-east-1
+#   Output format: json
+```
+
+Verify access:
+```bash
+aws sts get-caller-identity
+```
+
+---
+
 ## Installation & Deployment
 
-### Prerequisites
+### Already Deployed?
+
+If the system is already deployed on your AWS account, you can skip the deployment steps below. You only need to redeploy when:
+- Modifying CDK stack configurations
+- Updating Lambda function code
+- Changing infrastructure settings
+
+### Deployed API Endpoints
+
+| API | URL |
+|-----|-----|
+| **Inference** | `https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/` |
+| **Report Generator** | `https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/` |
+| **Feedback** | `https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/` |
+| **Expert Review** | `https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/` |
+
+### Deployed Storage Resources
+
+| Resource | Name |
+|----------|------|
+| **Models Bucket** | `capastoragestack-modelsbucket-<unique-id>` |
+| **Reports Bucket** | `capastoragestack-reportsbucket-<unique-id>` |
+| **Feedback Table** | `CapaStorageStack-FeedbackTable-<unique-id>` |
+| **Reports Table** | `CapaStorageStack-ReportsTable-<unique-id>` |
+| **Inference Table** | `CapaStorageStack-InferenceDataTable-<unique-id>` |
+
+To get your actual endpoints after deployment:
+```bash
+aws cloudformation describe-stacks --query "Stacks[?contains(StackName, 'Capa')].Outputs"
+```
+
+---
+
+### First-Time Deployment
+
+#### Prerequisites
 
 - AWS CLI configured with appropriate credentials
 - Node.js (for AWS CDK CLI)
 - Python 3.9+
 - Docker (for inference Lambda)
 
-### Setup
+#### Setup
 
 ```bash
 # Clone the repository
@@ -585,6 +651,17 @@ cdk synth
 
 # Deploy all stacks
 cdk deploy --all
+```
+
+---
+
+### Redeploying After Changes
+
+```bash
+# After modifying Lambda code or CDK stacks
+cd cdk
+cdk diff          # Preview changes
+cdk deploy --all  # Apply changes
 ```
 
 ### Stack Deployment Order
@@ -623,7 +700,7 @@ python synthetic_reports.py
 IMAGE_BASE64=$(base64 -i path/to/image.bmp)
 
 # Call inference API
-curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/ \
+curl -X POST https://<inference-api-id>.execute-api.us-east-1.amazonaws.com/prod/ \
   -H "Content-Type: application/json" \
   -d "{\"image\": \"$IMAGE_BASE64\", \"image_id\": \"test-001\"}"
 ```
@@ -632,7 +709,7 @@ curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/ \
 
 ```bash
 # Agree with prediction
-curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/feedback \
+curl -X POST https://<feedback-api-id>.execute-api.us-east-1.amazonaws.com/prod/ \
   -H "Content-Type: application/json" \
   -d '{
     "image_id": "test-001",
@@ -643,7 +720,7 @@ curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/feedback \
   }'
 
 # Disagree with prediction
-curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/feedback \
+curl -X POST https://<feedback-api-id>.execute-api.us-east-1.amazonaws.com/prod/ \
   -H "Content-Type: application/json" \
   -d '{
     "image_id": "test-001",
@@ -659,10 +736,10 @@ curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/feedback \
 
 ```bash
 # Get flagged items only
-curl "https://<api-id>.execute-api.<region>.amazonaws.com/prod/expert-review?filter=needs_review"
+curl "https://<expert-review-api-id>.execute-api.us-east-1.amazonaws.com/prod/?filter=needs_review"
 
 # Get all feedback items
-curl "https://<api-id>.execute-api.<region>.amazonaws.com/prod/expert-review?filter=all"
+curl "https://<expert-review-api-id>.execute-api.us-east-1.amazonaws.com/prod/?filter=all"
 ```
 
 ### Running Tests
