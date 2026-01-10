@@ -5,6 +5,8 @@ from stacks.report_generator_stack import ReportGeneratorStack
 from stacks.feedback_stack import FeedbackStack
 from stacks.expert_review_stack import ExpertReviewStack
 from stacks.expert_approve_stack import ExpertApproveStack
+from stacks.reports_crud_stack import ReportsCrudStack
+from stacks.images_stack import ImagesStack
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -53,5 +55,19 @@ expert_approve_stack = ExpertApproveStack(
     storage_stack=storage_stack
 )
 expert_approve_stack.add_dependency(storage_stack)
+
+# Deploy reports CRUD stack (NEW - for listing/viewing reports)
+reports_crud_stack = ReportsCrudStack(
+    app, "CapaReportsCrudStack",
+    storage_stack=storage_stack
+)
+reports_crud_stack.add_dependency(storage_stack)
+
+# Deploy images stack (NEW - for uploading/downloading images)
+images_stack = ImagesStack(
+    app, "CapaImagesStack",
+    storage_stack=storage_stack
+)
+images_stack.add_dependency(storage_stack)
 
 app.synth()
