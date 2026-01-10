@@ -2,3 +2,20 @@ IMAGE_FILE="/Users/amitjoshi/Documents/repo/CAPA-AI-Engine/data/NEU Metal Surfac
 base64 -i "$IMAGE_FILE" | jq -R -s --arg id "$IMAGE_FILE" '{image: ., image_id: $id}' | \
 curl -X POST https://hs8s5pgd28.execute-api.us-east-1.amazonaws.com/prod/ \
   -H "Content-Type: application/json" -d @- | jq .
+
+  aws s3 ls s3://capastoragestack-trainingbucketeb7bb5c9-xenilwo05ose/ --recursive
+```
+
+Should show folders like:
+```
+pending/Crazing/.readme
+pending/Inclusion/.readme
+...
+approved/train/Crazing/.readme
+...
+
+export AWS_PROFILE=admin-user
+set AWS_PROFILE=admin-user
+
+export AWS_PROFILE=srsai
+set AWS_PROFILE=srsai

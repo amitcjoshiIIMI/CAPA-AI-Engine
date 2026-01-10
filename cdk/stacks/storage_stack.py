@@ -101,3 +101,15 @@ class StorageStack(Stack):
             removal_policy=RemovalPolicy.DESTROY,
             point_in_time_recovery=True
         )
+        
+        # DynamoDB Table for class registry
+        self.class_registry_table = dynamodb.Table(
+            self, "ClassRegistryTable",
+            partition_key=dynamodb.Attribute(
+                name="class_name",
+                type=dynamodb.AttributeType.STRING
+            ),
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            removal_policy=RemovalPolicy.DESTROY,
+            point_in_time_recovery=True
+        )

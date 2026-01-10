@@ -7,6 +7,7 @@ from stacks.expert_review_stack import ExpertReviewStack
 from stacks.expert_approve_stack import ExpertApproveStack
 from stacks.reports_crud_stack import ReportsCrudStack
 from stacks.images_stack import ImagesStack
+from stacks.create_class_stack import CreateClassStack
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -69,5 +70,12 @@ images_stack = ImagesStack(
     storage_stack=storage_stack
 )
 images_stack.add_dependency(storage_stack)
+
+# Deploy create class stack
+create_class_stack = CreateClassStack(
+    app, "CapaCreateClassStack",
+    storage_stack=storage_stack
+)
+create_class_stack.add_dependency(storage_stack)
 
 app.synth()
