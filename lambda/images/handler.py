@@ -3,6 +3,7 @@ import boto3
 import os
 import base64
 from datetime import datetime
+from urllib.parse import unquote
 
 s3 = boto3.client('s3', region_name='us-east-1')
 
@@ -24,6 +25,8 @@ def lambda_handler(event, context):
         resource_path = event.get('resource', '')
 
         image_id = path_params.get('image_id')
+        if image_id:
+            image_id = unquote(image_id)  # Decode URL-encoded characters
 
         if http_method == 'POST' and 'upload' in resource_path:
             # POST /images/upload
@@ -96,6 +99,7 @@ def get_image(image_id):
         f"uploads/img_{image_id}"
     ]
 
+    # First try exact matches
     for s3_key in possible_keys:
         try:
             # Check if object exists
@@ -122,6 +126,37 @@ def get_image(image_id):
             if e.response['Error']['Code'] != '404':
                 raise
             continue
+
+    # If no exact match, search for objects containing the image_id
+    # This handles the case where inference Lambda adds timestamp prefix
+    try:
+        response = s3.list_objects_v2(
+            Bucket=IMAGES_BUCKET,
+            Prefix='uploads/',
+            MaxKeys=1000
+        )
+
+        for obj in response.get('Contents', []):
+            key = obj['Key']
+            # Check if image_id is contained in the key
+            if image_id in key:
+                presigned_url = s3.generate_presigned_url(
+                    'get_object',
+                    Params={
+                        'Bucket': IMAGES_BUCKET,
+                        'Key': key
+                    },
+                    ExpiresIn=3600
+                )
+
+                return success_response({
+                    'image_id': image_id,
+                    's3_key': key,
+                    'download_url': presigned_url,
+                    'expires_in_seconds': 3600
+                })
+    except Exception as e:
+        print(f"Search error: {str(e)}")
 
     return error_response(404, f'Image {image_id} not found')
 

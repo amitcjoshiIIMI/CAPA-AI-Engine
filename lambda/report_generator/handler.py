@@ -12,7 +12,7 @@ s3 = boto3.client('s3', region_name=REGION)
 
 REPORTS_TABLE = os.environ['REPORTS_TABLE']
 REPORTS_BUCKET = os.environ['REPORTS_BUCKET']
-MODEL_ID = "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+MODEL_ID = "us.anthropic.claude-sonnet-4-20250514-v1:0"
 
 
 def lambda_handler(event, context):
@@ -38,7 +38,10 @@ def lambda_handler(event, context):
         report_data = generate_capa_report(failure_mode, similar_reports)
         
         # Step 3: Save to DynamoDB and S3
-        report_id = f"CAPA_{image_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        # Sanitize image_id: replace dots, spaces, and special chars to avoid API Gateway path issues
+        import re
+        sanitized_image_id = re.sub(r'[^a-zA-Z0-9_-]', '_', image_id)
+        report_id = f"CAPA_{sanitized_image_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         
         full_report = {
             "report_id": report_id,
@@ -63,16 +66,24 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({
                 'report_id': report_id,
                 'report': full_report
             })
         }
-        
+
     except Exception as e:
         print(f"Error: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({'error': str(e)})
         }
 
@@ -157,6 +168,11 @@ Generate realistic, detailed content for each field. Return ONLY the JSON object
     
     result = json.loads(response['body'].read())
     report_text = result['content'][0]['text']
-    
-    # Parse JSON from response
+
+    # Extract JSON from response (model may wrap it in markdown code blocks)
+    import re
+    json_match = re.search(r'```(?:json)?\s*([\s\S]*?)```', report_text)
+    if json_match:
+        report_text = json_match.group(1).strip()
+
     return json.loads(report_text)

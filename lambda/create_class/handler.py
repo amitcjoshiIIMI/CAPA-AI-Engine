@@ -35,6 +35,10 @@ def lambda_handler(event, context):
         if not class_name:
             return {
                 'statusCode': 400,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 'body': json.dumps({'error': 'class_name is required'})
             }
         
@@ -45,6 +49,10 @@ def lambda_handler(event, context):
         if 'Item' in existing:
             return {
                 'statusCode': 409,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 'body': json.dumps({
                     'error': f'Class "{class_name}" already exists',
                     'existing_class': existing['Item']
@@ -79,16 +87,24 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 201,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({
                 'message': 'Class created successfully',
                 'class': class_record,
                 's3_folders': [f"s3://{TRAINING_BUCKET}/{f}" for f in folders]
             })
         }
-        
+
     except Exception as e:
         print(f"Error: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({'error': str(e)})
         }

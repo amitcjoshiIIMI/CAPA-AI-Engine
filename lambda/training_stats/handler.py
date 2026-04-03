@@ -7,7 +7,6 @@ s3 = boto3.client('s3', region_name='us-east-1')
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
 TRAINING_BUCKET = os.environ['TRAINING_BUCKET']
-GOLDEN_BUCKET = os.environ.get('GOLDEN_BUCKET', '')
 CLASS_REGISTRY_TABLE = os.environ['CLASS_REGISTRY_TABLE']
 
 
@@ -21,7 +20,7 @@ def count_images_in_folder(bucket, prefix):
             for obj in page.get('Contents', []):
                 key = obj['Key']
                 # Count actual image files (not .readme)
-                if key.lower().endswith(('.bmp', '.png', '.jpg', '.jpeg')) and not key.endswith('/.readme'):
+                if key.lower().endswith(('.bmp', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.tiff', '.tif')) and not key.endswith('/.readme'):
                     count += 1
         
         return count
@@ -50,15 +49,10 @@ def lambda_handler(event, context):
             pending_count = count_images_in_folder(TRAINING_BUCKET, f"pending/{class_name}/")
             approved_count = count_images_in_folder(TRAINING_BUCKET, f"approved/train/{class_name}/")
             
-            # Count in golden dataset (if configured)
-            golden_train = 0
-            golden_valid = 0
-            golden_test = 0
-            
-            if GOLDEN_BUCKET:
-                golden_train = count_images_in_folder(GOLDEN_BUCKET, f"NEU Metal Surface Defects Data/train/{class_name}/")
-                golden_valid = count_images_in_folder(GOLDEN_BUCKET, f"NEU Metal Surface Defects Data/valid/{class_name}/")
-                golden_test = count_images_in_folder(GOLDEN_BUCKET, f"NEU Metal Surface Defects Data/test/{class_name}/")
+            # Count in golden dataset (same bucket, golden/ prefix)
+            golden_train = count_images_in_folder(TRAINING_BUCKET, f"golden/train/{class_name}/")
+            golden_valid = count_images_in_folder(TRAINING_BUCKET, f"golden/valid/{class_name}/")
+            golden_test = count_images_in_folder(TRAINING_BUCKET, f"golden/test/{class_name}/")
             
             class_stat = {
                 'class_name': class_name,
@@ -115,5 +109,9 @@ def lambda_handler(event, context):
         print(f"Error: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({'error': str(e)})
         }

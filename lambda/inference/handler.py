@@ -13,9 +13,12 @@ from datetime import datetime
 s3 = boto3.client('s3')
 MODEL_BUCKET = os.environ['MODEL_BUCKET']
 IMAGES_BUCKET = os.environ.get('IMAGES_BUCKET', '')
+TRAINING_BUCKET = os.environ.get('TRAINING_BUCKET', '')
 REPORT_API_URL = os.environ.get('REPORT_API_URL', 'https://6ewcd5z551.execute-api.us-east-1.amazonaws.com/prod/generate-report')
 
 # Load model (global to reuse across invocations)
+# The active checkpoint is copied to the root of MODEL_BUCKET by the checkpoint management Lambda
+# So we always load from model.pth and model_metadata.json at the bucket root
 model = None
 class_names = None
 
@@ -57,6 +60,23 @@ def save_image_to_s3(image_bytes, image_id):
         print(f"Failed to save image to S3: {str(e)}")
         return None
 
+def copy_image_to_training_pending(image_bytes, image_id, predicted_class):
+    """Copy uploaded image to training bucket under pending/{class}/ for expert review."""
+    if not TRAINING_BUCKET:
+        return None
+
+    try:
+        s3_key = f"pending/{predicted_class}/{image_id}"
+        s3.put_object(
+            Bucket=TRAINING_BUCKET,
+            Key=s3_key,
+            Body=image_bytes
+        )
+        return s3_key
+    except Exception as e:
+        print(f"Failed to copy image to training pending: {str(e)}")
+        return None
+
 def handler(event, context):
     try:
         load_model()
@@ -76,6 +96,10 @@ def handler(event, context):
         if not image_b64:
             return {
                 'statusCode': 400,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 'body': json.dumps({'error': 'No image provided (expected "image" or "image_data" field)'})
             }
         
@@ -105,35 +129,38 @@ def handler(event, context):
             'image_id': body.get('image_id', 'unknown'),
             's3_key': s3_key  # Add this line
         }
-        
-        # Auto-trigger report generation if confidence > 0.95
+
+        # Copy image to training bucket pending folder for expert review
+        pending_key = copy_image_to_training_pending(
+            image_bytes, result['image_id'], result['predicted_class']
+        )
+        if pending_key:
+            result['training_pending_key'] = pending_key
+
+        # Always trigger report generation for expert review
         report_id = None
-        if confidence.item() > 0.95:
-            try:
-                report_payload = json.dumps({
-                    'image_id': result['image_id'],
-                    'failure_mode': result['predicted_class'],
-                    'confidence': str(result['confidence'])
-                }).encode('utf-8')
-                
-                req = urllib.request.Request(
-                    REPORT_API_URL,
-                    data=report_payload,
-                    headers={'Content-Type': 'application/json'}
-                )
-                
-                with urllib.request.urlopen(req, timeout=30) as response:
-                    report_data = json.loads(response.read().decode('utf-8'))
-                    report_id = report_data.get('report_id')
-                    result['report_generated'] = True
-                    result['report_id'] = report_id
-            except Exception as report_error:
-                # Don't fail the whole request if report generation fails
-                result['report_generated'] = False
-                result['report_error'] = str(report_error)
-        else:
+        try:
+            report_payload = json.dumps({
+                'image_id': result['image_id'],
+                'failure_mode': result['predicted_class'],
+                'confidence': str(result['confidence'])
+            }).encode('utf-8')
+
+            req = urllib.request.Request(
+                REPORT_API_URL,
+                data=report_payload,
+                headers={'Content-Type': 'application/json'}
+            )
+
+            with urllib.request.urlopen(req, timeout=30) as response:
+                report_data = json.loads(response.read().decode('utf-8'))
+                report_id = report_data.get('report_id')
+                result['report_generated'] = True
+                result['report_id'] = report_id
+        except Exception as report_error:
+            # Don't fail the whole request if report generation fails
             result['report_generated'] = False
-            result['report_reason'] = 'Confidence below threshold (0.95)'
+            result['report_error'] = str(report_error)
         
         return {
             'statusCode': 200,
@@ -147,5 +174,9 @@ def handler(event, context):
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({'error': str(e)})
         }

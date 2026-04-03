@@ -89,7 +89,7 @@ def create_feedback(event):
         'user_action': user_action,
         'confidence': confidence,
         'user_id': user_id,
-        'needs_expert_review': False,
+        'needs_expert_review': True,
         's3_key': s3_key
     }
 
@@ -98,11 +98,8 @@ def create_feedback(event):
         if 'corrected_class' not in body:
             return error_response(400, 'corrected_class required when user_action=disagree')
         feedback_record['corrected_class'] = body['corrected_class']
-        feedback_record['needs_expert_review'] = True
-
-    # Also flag low confidence for review
-    if float(confidence) < 0.90:
-        feedback_record['needs_expert_review'] = True
+        feedback_record['review_reason'] = 'User disagreed'
+    elif float(confidence) < 0.90:
         feedback_record['review_reason'] = 'Low confidence'
 
     # Save to DynamoDB
