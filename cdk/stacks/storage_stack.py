@@ -24,6 +24,14 @@ class StorageStack(Stack):
                     id="DeleteOldImages",
                     expiration=Duration.days(90)
                 )
+            ],
+            cors=[
+                s3.CorsRule(
+                    allowed_methods=[s3.HttpMethods.GET, s3.HttpMethods.HEAD],
+                    allowed_origins=["*"],
+                    allowed_headers=["*"],
+                    max_age=3000
+                )
             ]
         )
 
@@ -112,4 +120,42 @@ class StorageStack(Stack):
             billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
             removal_policy=RemovalPolicy.DESTROY,
             point_in_time_recovery=True
+        )
+
+        # DynamoDB Table for model checkpoints
+        self.checkpoints_table = dynamodb.Table(
+            self, "CheckpointsTable",
+            partition_key=dynamodb.Attribute(
+                name="checkpoint_name",
+                type=dynamodb.AttributeType.STRING
+            ),
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            removal_policy=RemovalPolicy.DESTROY,
+            point_in_time_recovery=True
+        )
+
+        # GSI for querying checkpoints by parent (for lineage)
+        self.checkpoints_table.add_global_secondary_index(
+            index_name="ParentIndex",
+            partition_key=dynamodb.Attribute(
+                name="parent_checkpoint",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="created_at",
+                type=dynamodb.AttributeType.STRING
+            )
+        )
+
+        # GSI for querying active checkpoint
+        self.checkpoints_table.add_global_secondary_index(
+            index_name="ActiveIndex",
+            partition_key=dynamodb.Attribute(
+                name="is_active",
+                type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(
+                name="created_at",
+                type=dynamodb.AttributeType.STRING
+            )
         )
